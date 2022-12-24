@@ -1,62 +1,97 @@
-const qList = [{
+const questList = [{
         id: 0,
         num: "Question 1",
-        q: "Text of question 1",
-        a: [
-            {text1: "answer 1", isCorrect: true},
-            {text2: "answer 2", isCorrect: false},
-            {text3: "answer 3", isCorrect: false},
-            {text4: "answer 4", isCorrect: false},
+        quest: "Text of question 1",
+        ans: [
+            {A: "answer 1", isCorrect: true},
+            {B: "answer 2", isCorrect: false},
+            {C: "answer 3", isCorrect: false},
+            {D: "answer 4", isCorrect: false},
         ]
     },
     {
         id: 1,
         num: "Question 2",
-        q: "Text of question 2",
-        a: [
-            {text1: "answer 1", isCorrect: false},
-            {text2: "answer 2", isCorrect: true},
-            {text3: "answer 3", isCorrect: false},
-            {text4: "answer 4", isCorrect: false},
+        quest: "Text of question 2",
+        ans: [
+            {A: "answer 1", isCorrect: false},
+            {B: "answer 2", isCorrect: true},
+            {C: "answer 3", isCorrect: false},
+            {D: "answer 4", isCorrect: false},
         ]
     },
     {
         id: 2,
         num: "Question 3",
-        q: "Text of question 3",
-        a: [
-            {text1: "answer 1", isCorrect: false},
-            {text2: "answer 2", isCorrect: false},
-            {text3: "answer 3", isCorrect: true},
-            {text4: "answer 4", isCorrect: false},
+        quest: "Text of question 3",
+        ans: [
+            {A: "answer 1", isCorrect: false},
+            {B: "answer 2", isCorrect: false},
+            {C: "answer 3", isCorrect: true},
+            {D: "answer 4", isCorrect: false},
         ]
     },
     {
         id: 3,
         num: "Question 4",
-        q: "Text of question 4",
-        a: [
-            {text1: "answer 1", isCorrect: false},
-            {text2: "answer 2", isCorrect: false},
-            {text3: "answer 3", isCorrect: false},
-            {text4: "answer 4", isCorrect: true},
+        quest: "Text of question 4",
+        ans: [
+            {A: "answer 1", isCorrect: false},
+            {B: "answer 2", isCorrect: false},
+            {C: "answer 3", isCorrect: false},
+            {D: "answer 4", isCorrect: true},
         ]
     }
 ]
 
-const startQuiz = function() {
-    console.log(quest)
-    const questNum = document.getElementById('questNum');
-    const question = document.getElementById('question');
-    const a1 = document.getElementById('a1');
-    const a2 = document.getElementById('a2');
-    const a3 = document.getElementById('a3');
-    const a4 = document.getElementById('a4');
-    questNum.textContent = qList.num;
-    question.textContent = qList.q;
-    a1.textContent = qList.a.text1;
-    a2.textContent = qlist.a.text2;
-    a3.textContent = qlist.a.text3;
-    a4.textContent = qlist.a.text4;
+const start = document.getElementById('start');
+// const questNum = document.getElementById('questNum');
+// const quest = document.getElementById('question');
+// const ans1 = document.getElementById('a1');
+// const ans2 = document.getElementById('a2');
+// const ans3 = document.getElementById('a3');
+// const ans4 = document.getElementById('a4');
+const results = document.getElementById('result');
+const submit = document.getElementById('submit');
 
-}
+function buildQuiz() {
+    const output = [];
+    questList.forEach(
+        (currentQuest, num) => {
+            const ans = [];
+            for (letter in currentQuest.ans) {
+                ans.push(
+                    `<label>
+                        <input type="radio" name= "quest${num}" value="${letter}">
+                        ${letter} :
+                        ${currentQuest.ans[letter]}
+                    </label>`
+                );
+            }
+                output.push(
+                    `<div class="question> ${currentQuest.question}</div>
+                    <div class="ans"> ${ans.join('')} </div>`
+
+                );
+            }
+        );
+    start.innerHTML = output.join('');
+};
+
+
+function showResult() {
+    const answer = start.querySelectorAll('ans');
+    let numCorret = 0;
+    questList.forEach((currentQuest, num) => {
+        const answer = ans[num];
+        const selector = `input[name=quest${num}]:checked`;
+        const userAnswer = (answer.querySelector(selector) || {}).value;
+        if( === true)
+    }
+
+    )
+};
+
+start.addEventListener('click', buildQuiz);
+submit.addEventListener('click', nextQuest);
+
