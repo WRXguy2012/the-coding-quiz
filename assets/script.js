@@ -1,97 +1,178 @@
-const questList = [{
-        id: 0,
-        num: "Question 1",
-        quest: "Text of question 1",
-        ans: [
-            {A: "answer 1", isCorrect: true},
-            {B: "answer 2", isCorrect: false},
-            {C: "answer 3", isCorrect: false},
-            {D: "answer 4", isCorrect: false},
-        ]
-    },
-    {
-        id: 1,
-        num: "Question 2",
-        quest: "Text of question 2",
-        ans: [
-            {A: "answer 1", isCorrect: false},
-            {B: "answer 2", isCorrect: true},
-            {C: "answer 3", isCorrect: false},
-            {D: "answer 4", isCorrect: false},
-        ]
-    },
-    {
-        id: 2,
-        num: "Question 3",
-        quest: "Text of question 3",
-        ans: [
-            {A: "answer 1", isCorrect: false},
-            {B: "answer 2", isCorrect: false},
-            {C: "answer 3", isCorrect: true},
-            {D: "answer 4", isCorrect: false},
-        ]
-    },
-    {
-        id: 3,
-        num: "Question 4",
-        quest: "Text of question 4",
-        ans: [
-            {A: "answer 1", isCorrect: false},
-            {B: "answer 2", isCorrect: false},
-            {C: "answer 3", isCorrect: false},
-            {D: "answer 4", isCorrect: true},
-        ]
-    }
-]
-
-const start = document.getElementById('start');
-// const questNum = document.getElementById('questNum');
-// const quest = document.getElementById('question');
-// const ans1 = document.getElementById('a1');
-// const ans2 = document.getElementById('a2');
-// const ans3 = document.getElementById('a3');
-// const ans4 = document.getElementById('a4');
-const results = document.getElementById('result');
-const submit = document.getElementById('submit');
-
-function buildQuiz() {
+const allBtn = document.getElementByClass("theBtns");
+function start() {
+  // const startMenu = getElementById('startMenu'
+  const allBtn = document.getElementByClass("theBtns");
+  if (allBtn.style.display === "none") {
+    allBtn.style.display = "block";
+  } else {
+    allBtn.style.display = "none";
+    };
+function buildQuiz(){
+    // const startMenu = document.getElementById('startMenu');
+    // startMenu.style.display = 'none';
+    // variable to store the HTML output
     const output = [];
-    questList.forEach(
-        (currentQuest, num) => {
-            const ans = [];
-            for (letter in currentQuest.ans) {
-                ans.push(
-                    `<label>
-                        <input type="radio" name= "quest${num}" value="${letter}">
-                        ${letter} :
-                        ${currentQuest.ans[letter]}
-                    </label>`
-                );
-            }
-                output.push(
-                    `<div class="question> ${currentQuest.question}</div>
-                    <div class="ans"> ${ans.join('')} </div>`
-
-                );
-            }
+  
+    // for each question...
+    myQuestions.forEach(
+      (currentQuestion, questionNumber) => {
+  
+        // variable to store the list of possible answers
+        const answers = [];
+  
+        // and for each available answer...
+        for(letter in currentQuestion.answers){
+  
+          // ...add an HTML radio button
+          answers.push(
+            `<label>
+              <input type="radio" name="question${questionNumber}" value="${letter}">
+              ${letter} :
+              ${currentQuestion.answers[letter]}
+            </label>`
+          );
+        };
+  
+        // add this question and its answers to the output
+        output.push(
+        `<div class="slide">
+          <div class="question"> ${currentQuestion.question} </div>
+          <div class="answers"> ${answers.join("")} </div>
+        </div>`
         );
-    start.innerHTML = output.join('');
-};
+      }
+    );
+  
+    // finally combine our output list into one string of HTML and put it on the page
+    quizContainer.innerHTML = output.join('');
+  };
 
+  function showResults(){
 
-function showResult() {
-    const answer = start.querySelectorAll('ans');
-    let numCorret = 0;
-    questList.forEach((currentQuest, num) => {
-        const answer = ans[num];
-        const selector = `input[name=quest${num}]:checked`;
-        const userAnswer = (answer.querySelector(selector) || {}).value;
-        if( === true)
+    // gather answer containers from our quiz
+    const answerContainers = quizContainer.querySelectorAll('.answers');
+  
+    // keep track of user's answers
+    let numCorrect = 0;
+  
+    // for each question...
+    myQuestions.forEach( (currentQuestion, questionNumber) => {
+  
+      // find selected answer
+      const answerContainer = answerContainers[questionNumber];
+      const selector = `input[name=question${questionNumber}]:checked`;
+      const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+  
+      // if answer is correct
+      if(userAnswer === currentQuestion.correctAnswer){
+        // add to the number of correct answers
+        numCorrect++;
+  
+        // color the answers green
+        answerContainers[questionNumber].style.color = 'lightgreen';
+      }
+      // if answer is wrong or blank
+      else{
+        // color the answers red
+        answerContainers[questionNumber].style.color = 'red';
+      }
+    });
+  
+    // show number of correct answers out of total
+    resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+  };
+
+function showSlide(n) {
+    slide[currentSlide].classList.remove('active-slide');
+    slide[n].classList.add('active-slide');
+    currentSlide = n;
+    if(currentSlide === 0){
+      previousButton.style.display = 'none';
     }
+    else{
+      previousButton.style.display = 'inline-block';
+    }
+    if(currentSlide === slide.length-1){
+      nextButton.style.display = 'none';
+      submitButton.style.display = 'inline-block';
+    }
+    else{
+      nextButton.style.display = 'inline-block';
+      submitButton.style.display = 'none';
+    }
+  };
+// const slides = document.querySelectorAll(".slide");
 
-    )
-};
+function showNextSlide() {
+    showSlide(currentSlide + 1);
+  };
+  
+function showPreviousSlide() {
+    showSlide(currentSlide - 1);
+  };
 
-start.addEventListener('click', buildQuiz);
-submit.addEventListener('click', nextQuest);
+const quizContainer = document.getElementById('quiz');
+const resultsContainer = document.getElementById('results');
+const submitButton = document.getElementById('submit');
+// const startMenu = document.getElementById('startMenu');
+// const slides = document.querySelectorAll(".slide");
 
+const myQuestions = [
+  {
+        question: "Text of question 1",
+        answers: {
+            A: "answer 1",
+            B: "answer 2",
+            C: "answer 3",
+            D: "answer 4",
+        },
+        correctAnswer: "A",
+    },
+    {
+        question: "Text of question 2",
+        answers: {
+            A: "answer 1",
+            B: "answer 2",
+            C: "answer 3",
+            D: "answer 4",
+        },
+        correctAnswer: "B",
+    },
+    {
+        question: "Text of question 3",
+        answers: {
+            A: "answer 1",
+            B: "answer 2",
+            C: "answer 3",
+            D: "answer 4",
+        },
+        correctAnswer: "C",
+    },
+    {
+        question: "Text of question 4",
+        answers: {
+            A: "answer 41",
+            B: "answer 42",
+            C: "answer 43",
+            D: "answer 44",
+        },
+        correctAnswer:"D",
+    },
+];
+// const startButton = document.getElementById("start");
+// startButton.addEventListener('click', buildQuiz);
+buildQuiz();
+// const startMenu = document.getElementById("startMenu");
+// const startButton = document.getElementById("start");
+const previousButton = document.getElementById("previous");
+const nextButton = document.getElementById("next");
+const slide = document.querySelectorAll(".slide");
+let currentSlide = 0;
+
+showSlide(currentSlide);
+
+// startButton.addEventListener('click', buildQuiz);
+submitButton.addEventListener('click', showResults);
+previousButton.addEventListener("click", showPreviousSlide);
+nextButton.addEventListener("click", showNextSlide);
+}
