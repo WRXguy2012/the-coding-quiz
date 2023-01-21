@@ -70,7 +70,8 @@ function showResults(){
     // show number of correct answers out of total
     resultsContainer.innerHTML = (`<div> 
                             <p> You got ${numCorrect} out of ${myQuestions.length} </p>
-                            <a href="../index.html">Try Again?</a>`);
+                            <a href="../index.html">Try Again?</a> </div>`);
+    
 }
 
 function showSlide(n) {
@@ -101,11 +102,29 @@ function showSlide(n) {
     showSlide(currentSlide - 1);
   }
 
+  function setTime() {
+    // Sets interval in variable
+    var timerInterval = setInterval(function() {
+      secondsLeft--;
+      timeEl.innerHTML = (`<div> ${secondsLeft} </div>`);
+  
+      if(secondsLeft === 0) {
+        // Stops execution of action at set interval
+        clearInterval(timerInterval);
+        // Calls function to create and append image
+        showResults();
+      }
+  
+    }, 1000);
+  }
+
 // Variables
 const quizContainer = document.getElementById('quiz');
 const resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
-const time = document.getElementById('time');
+var timeEl = document.getElementById("theTime");
+// var mainEl = document.getElementById("main");
+var secondsLeft = 10;
 const myQuestions = [
     {
       question: "",
@@ -147,9 +166,13 @@ let currentSlide = 0;
 
 showSlide(currentSlide);
 
+
 // Event listeners
 submitButton.addEventListener('click', showResults);
 // previousButton.addEventListener("click", showPreviousSlide);
 nextButton.addEventListener("click", showNextSlide);
-const timeoutId = setTimeout(showResults, 30000);
-time.innerHTML = (`${timeoutId}`);
+
+// setTimeout(showResults, 28000);
+// setInterval(updateTimer, 1000);
+
+setTime();
