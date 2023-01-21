@@ -4,22 +4,28 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="./assets/quiz.css">
         <title>The Coding Quiz</title>
     </head>
-    <Header>
-        <div id="theTime"></div>
-        <p> Stupid ass timer i cant get to fucking show up!!</p>
-    </Header>
-
-    <div class="quiz-container">
-        <div id="quiz"></div>
-    </div>
+   
+    <body>
+        <div class= "w3-row" id="theTime"></div>
+        <section id="questBody">
+            <div class="quiz-container"></div>
+            <div id="quiz"></div>
     <!-- <button id="previous">Previous Question</button> -->
-    <button id="next">Next Question</button>
-    <button id="submit">Submit Quiz</button>
-    <div id="results"></div>
-    <script src="./assets/quiz.js"></script>
+            <button id="next">Next Question</button>
+            <button id="submit">Submit Quiz</button>
+        </section>
+        <div id="results"></div>
+        <div id="theScores">
+            <form>
+                <input id="name">
+                <button id="saveScore">Save</button>
+            </form>
+        </div>
+        <script src="./assets/quiz.js"></script>
+    </body>
     <!-- <Script src="../assets/script.js"></Script> -->
 </html>

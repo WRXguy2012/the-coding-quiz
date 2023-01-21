@@ -70,7 +70,7 @@ function showResults(){
     // show number of correct answers out of total
     resultsContainer.innerHTML = (`<div> 
                             <p> You got ${numCorrect} out of ${myQuestions.length} </p>
-                            <a href="../index.html">Try Again?</a> </div>`);
+                            </div>`);
     
 }
 
@@ -111,8 +111,14 @@ function showSlide(n) {
       if(secondsLeft === 0) {
         // Stops execution of action at set interval
         clearInterval(timerInterval);
+        questBody.style.display = 'none';
+        timeEl.style.display = 'none';
+        theScores.style.display = 'block';
         // Calls function to create and append image
         showResults();
+      }
+      else{
+        theScores.style.display = 'none';
       }
   
     }, 1000);
@@ -123,6 +129,8 @@ const quizContainer = document.getElementById('quiz');
 const resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
 var timeEl = document.getElementById("theTime");
+const questBody = document.getElementById('questBody');
+const theScores = document.getElementById("theScores");
 // var mainEl = document.getElementById("main");
 var secondsLeft = 10;
 const myQuestions = [
@@ -176,3 +184,38 @@ nextButton.addEventListener("click", showNextSlide);
 // setInterval(updateTimer, 1000);
 
 setTime();
+
+var userName = document.getElementById("name");
+
+const saveBtn = document.getElementById('saveScore');
+
+function saveScore() {
+  // Save related form data as an object
+  var score = {
+    name: userName.value,
+    score: numCorrect.value,
+    date: date.value,
+  };
+  // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+  localStorage.setItem("score", JSON.stringify(score));
+}
+
+function allScore() {
+  // Use JSON.parse() to convert text to JavaScript object
+  var oldScore = JSON.parse(localStorage.getItem("score"));
+  // Check if data is returned, if not exit out of the function
+  if (oldScore !== null) {
+  document.getElementById("saved-name").innerHTML = oldScore.name;
+  document.getElementById("saved-score").innerHTML = oldScore.score;
+  document.getElementById("saved-date").innerHTML = oldScore.date;
+  } else {
+    return;
+  }
+}
+
+saveBtn.addEventListener("click", function(event) {
+event.preventDefault();
+saveScore();
+allScore();
+});
+const date = new date();
