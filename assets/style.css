@@ -1,0 +1,47 @@
+body {
+  background-image: url('./images/backroundImg1.jfif');
+  background-size: cover;
+  height: 100vh;
+  background-repeat: no-repeat;
+}
+
+h1 {
+  text-shadow: 2px 2px 5px gray;
+}
+
+#bigh1 {
+    font-size: 10vw;
+}
+#smallh1 {
+  font-size: 62px;
+}
+body section p {
+    font-size: 3.5vw;
+}
+
+.slide{
+    /* position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%; */
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .active-slide{
+    opacity: 1;
+    z-index: 2;
+  }
+  .quiz-container{
+    position: relative;
+    height: 200px;
+    margin-top: 40px;
+  }
+#page {
+    padding-top: 25vh;
+}
+#timeSty {
+  padding-top: 5%;
+  padding-left: 40%;
+}
+

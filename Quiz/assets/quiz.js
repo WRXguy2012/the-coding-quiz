@@ -37,7 +37,6 @@ function buildQuiz(){
   };
 
 function showResults(){
-
     // gather answer containers from our quiz
     const answerContainers = quizContainer.querySelectorAll('.answers');
   
@@ -51,6 +50,7 @@ function showResults(){
       const answerContainer = answerContainers[questionNumber];
       const selector = `input[name=question${questionNumber}]:checked`;
       const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
   
       // if answer is correct
       if(userAnswer === currentQuestion.correctAnswer){
@@ -71,8 +71,35 @@ function showResults(){
     resultsContainer.innerHTML = (`<div> 
                             <p> You got ${numCorrect} out of ${myQuestions.length} </p>
                             </div>`);
-    
-}
+                          
+                            if (oldScore !== null) {
+                              document.getElementById("savedName").innerHTML = oldScore.name;
+                              document.getElementById("savedScore").innerHTML = oldScore.score;
+                              // document.getElementById("saved-date").innerHTML = oldScore.date;
+                              } else {
+                                return;
+                              };
+                            
+                          
+
+                            saveBtn.addEventListener("click", function(event) {
+                              event.preventDefault();
+                              // saveScore();
+                              // allScore();
+                              var score = {
+                                name: userName.value,
+                                score: numCorrect,
+                                // date: date.value,
+                              };
+                            // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+                            localStorage.setItem("score", JSON.stringify(score));
+
+                           
+  // Check if data is returned, if not exit out of the function
+                            });
+                          };
+
+                          
 
 function showSlide(n) {
     slides[currentSlide].classList.remove('active-slide');
@@ -106,7 +133,7 @@ function showSlide(n) {
     // Sets interval in variable
     var timerInterval = setInterval(function() {
       secondsLeft--;
-      timeEl.innerHTML = (`<div> ${secondsLeft} </div>`);
+      timeEl.innerHTML = (`<div class='w3-row' id='timeSty'><div class="w3-center w3-card-4 w3-round-xlarge w3-sand w3-opacity-max w3-third w3-col m4 13"><p>Time Remaining: ${secondsLeft}</p></div></div>`);
   
       if(secondsLeft === 0) {
         // Stops execution of action at set interval
@@ -131,6 +158,7 @@ const submitButton = document.getElementById('submit');
 var timeEl = document.getElementById("theTime");
 const questBody = document.getElementById('questBody');
 const theScores = document.getElementById("theScores");
+var oldScore = JSON.parse(localStorage.getItem("score"));
 // var mainEl = document.getElementById("main");
 var secondsLeft = 10;
 const myQuestions = [
@@ -186,36 +214,31 @@ nextButton.addEventListener("click", showNextSlide);
 setTime();
 
 var userName = document.getElementById("name");
-
+// const date = new date();
 const saveBtn = document.getElementById('saveScore');
 
-function saveScore() {
-  // Save related form data as an object
-  var score = {
-    name: userName.value,
-    score: numCorrect.value,
-    date: date.value,
-  };
-  // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
-  localStorage.setItem("score", JSON.stringify(score));
-}
+// function saveScore() {
+//   // Save related form data as an object
+//   var score = {
+//     name: userName.value,
+//     score: numCorrect.value,
+//     date: date.value,
+//   };
+//   // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+//   localStorage.setItem("score", JSON.stringify(score));
+// }
 
-function allScore() {
+// function allScore() {
   // Use JSON.parse() to convert text to JavaScript object
-  var oldScore = JSON.parse(localStorage.getItem("score"));
-  // Check if data is returned, if not exit out of the function
-  if (oldScore !== null) {
-  document.getElementById("saved-name").innerHTML = oldScore.name;
-  document.getElementById("saved-score").innerHTML = oldScore.score;
-  document.getElementById("saved-date").innerHTML = oldScore.date;
-  } else {
-    return;
-  }
-}
+  // var oldScore = JSON.parse(localStorage.getItem("score"));
+  // // Check if data is returned, if not exit out of the function
+  // if (oldScore !== null) {
+  // document.getElementById("saved-name").innerHTML = oldScore.name;
+  // document.getElementById("saved-score").innerHTML = oldScore.score;
+  // // document.getElementById("saved-date").innerHTML = oldScore.date;
+  // } else {
+  //   return;
+  // }
 
-saveBtn.addEventListener("click", function(event) {
-event.preventDefault();
-saveScore();
-allScore();
-});
-const date = new date();
+
+
