@@ -25,7 +25,7 @@ function buildQuiz(){
         // add this question and its answers to the output
         output.push(
             `<div class="slide">
-              <div class="question"> ${currentQuestion.question} </div>
+              <div class="question" id='questS'> ${currentQuestion.question} </div>
               <div class="answers"> ${answers.join("")} </div>
             </div>`
         );
@@ -133,7 +133,7 @@ function showSlide(n) {
     // Sets interval in variable
     var timerInterval = setInterval(function() {
       secondsLeft--;
-      timeEl.innerHTML = (`<div class='w3-row' id='timeSty'><div class="w3-center w3-card-4 w3-round-xlarge w3-sand w3-opacity-max w3-third w3-col m4 13"><p>Time Remaining: ${secondsLeft}</p></div></div>`);
+      timeEl.innerHTML = (`<div class='w3-row' id='timeSty'><div class="w3-center w3-card-4 w3-round-large w3-third w3-col m4 13" id='timeB'><p id='timeTxt'>Time Remaining: ${secondsLeft}</p></div></div>`);
   
       if(secondsLeft === 0) {
         // Stops execution of action at set interval
@@ -163,13 +163,13 @@ var oldScore = JSON.parse(localStorage.getItem("score"));
 var secondsLeft = 10;
 const myQuestions = [
     {
-      question: "",
+      question: "This is the first question?",
       answers: {
-        a: "",
-        b: "",
-        c: ""
+        a: "This",
+        b: "The Other",
+        c: "Maybe Not"
       },
-      correctAnswer: ""
+      correctAnswer: "c"
     },
     {
       question: "Which one of these is a JavaScript package manager?",
