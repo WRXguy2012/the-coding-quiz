@@ -1,15 +1,14 @@
+// Functions
+
+// start quiz 
 function buildQuiz() {
-  // variable to store the HTML output
   const output = [];
 
-  // for each question...
+  // pull question and answers from data
   myQuestions.forEach((currentQuestion, questionNumber) => {
-    // variable to store the list of possible answers
     const answers = [];
 
-    // and for each available answer...
     for (letter in currentQuestion.answers) {
-      // ...add an HTML radio button
       answers.push(
         `<label>
               <input type="radio" name="question${questionNumber}" value="${letter}">
@@ -19,7 +18,7 @@ function buildQuiz() {
       );
     }
 
-    // add this question and its answers to the output
+    // add HTML with specific question info
     output.push(
       `<div class="slide">
               <div class="question" id='questS'> ${
@@ -30,79 +29,56 @@ function buildQuiz() {
     );
   });
 
-  // finally combine our output list into one string of HTML and put it on the page
   quizContainer.innerHTML = output.join("");
 }
 
+// retrieve and display user results
 function showResults() {
-  // gather answer containers from our quiz
   const answerContainers = quizContainer.querySelectorAll(".answers");
-
-  // keep track of user's answers
   let numCorrect = 0;
 
-  // for each question...
+  // check and keep track of user score
   myQuestions.forEach((currentQuestion, questionNumber) => {
-    // find selected answer
     const answerContainer = answerContainers[questionNumber];
     const selector = `input[name=question${questionNumber}]:checked`;
     const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 
-    // if answer is correct
     if (userAnswer === currentQuestion.correctAnswer) {
-      // add to the number of correct answers
       numCorrect++;
-
-      // color the answers green
-      answerContainers[questionNumber].style.color = "lightgreen";
-    }
-    // if answer is wrong or blank
-    else {
-      // color the answers red
-      answerContainers[questionNumber].style.color = "red";
     }
   });
 
-  // show number of correct answers out of total
+  // show results in HTML
   resultsContainer.innerHTML = `<div class="w3-row w3-center w3-mobile w3-margin"> 
                             <p id="con"> Good Job! </p>
                             <p id="resSty"> You got ${numCorrect} out of ${myQuestions.length} correct!</p>
                             </div>`;
 
+  // save user score in local storage
   if (oldScore !== null) {
     document.getElementById("savedName").innerHTML = oldScore.name;
     document.getElementById("savedScore").innerHTML = oldScore.score;
-    // document.getElementById("saved-date").innerHTML = oldScore.date;
   } else {
     return;
   }
 
-  saveBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-    // saveScore();
-    // allScore();
-    var score = {
-      name: userName.value,
-      score: numCorrect,
-      // date: date.value,
-    };
-    // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+    saveBtn.addEventListener("click", function (event) {
+      event.preventDefault();
+      var score = {
+        name: userName.value,
+        score: numCorrect,
+     };
+    
     localStorage.setItem("score", JSON.stringify(score));
-
-    // Check if data is returned, if not exit out of the function
   });
 }
 
+// advance through questions
 function showSlide(n) {
   slides[currentSlide].classList.remove("active-slide");
   slides[n].classList.add("active-slide");
   currentSlide = n;
-  // if(currentSlide === 0){
-  //   previousButton.style.display = 'none';
-  // }
-  // else{
-  //   previousButton.style.display = 'inline-block';
-  // }
+
   if (currentSlide === slides.length - 1) {
     nextButton.style.display = "none";
     submitButton.style.display = "inline-block";
@@ -116,23 +92,18 @@ function showNextSlide() {
   showSlide(currentSlide + 1);
 }
 
-function showPreviousSlide() {
-  showSlide(currentSlide - 1);
-}
-
+// timer
 function setTime() {
-  // Sets interval in variable
   var timerInterval = setInterval(function () {
     secondsLeft--;
-    timeEl.innerHTML = `<div class='w3-row' id='timeSty'><div class="w3-center w3-card-4 w3-round-large w3-third w3-col m4 13" id='timeB'><p id='timeTxt'>Time Remaining: ${secondsLeft}</p></div></div>`;
+    timeEl.innerHTML = `<div class='w3-row' id='timeSty'><div class="w3-center w3-card-4 w3-round-large w3-third w3-col m4 13 w3-ios-gray"><p id='timeTxt'>Time Remaining: ${secondsLeft}</p></div></div>`;
 
+    // hide timer
     if (secondsLeft === 0) {
-      // Stops execution of action at set interval
       clearInterval(timerInterval);
       questBody.style.display = "none";
       timeEl.style.display = "none";
       theScores.style.display = "block";
-      // Calls function to create and append image
       showResults();
     } else {
       theScores.style.display = "none";
@@ -148,7 +119,6 @@ var timeEl = document.getElementById("theTime");
 const questBody = document.getElementById("questBody");
 const theScores = document.getElementById("theScores");
 var oldScore = JSON.parse(localStorage.getItem("score"));
-// var mainEl = document.getElementById("main");
 var secondsLeft = 10;
 const myQuestions = [
   {
