@@ -64,8 +64,9 @@ function showResults() {
   });
 
   // show number of correct answers out of total
-  resultsContainer.innerHTML = `<div> 
-                            <p> You got ${numCorrect} out of ${myQuestions.length} </p>
+  resultsContainer.innerHTML = `<div class="w3-row w3-center w3-mobile w3-margin"> 
+                            <p id="con"> Good Job! </p>
+                            <p id="resSty"> You got ${numCorrect} out of ${myQuestions.length} correct!</p>
                             </div>`;
 
   if (oldScore !== null) {

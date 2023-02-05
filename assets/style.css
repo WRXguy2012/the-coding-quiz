@@ -20,14 +20,19 @@ body section p {
 }
 
 .slide {
-  /* left: 0px;
-    top: 0px;
-    width: 100%; */
+  /* position: absolute; */
+    /* left: 0px; */
+    /* top: 0px; */
+    /* width: 100%; */
   z-index: 1;
   opacity: 0;
   transition: opacity 0.5s;
 }
 .active-slide {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
   opacity: 1;
 }
 .quiz-container {
@@ -62,5 +67,23 @@ body section p {
 }
 #quiz {
   position: relative;
-  top: 15vw;
+  top: 8vw;
+}
+#resSty {
+  font-size: 6vh;
+  text-shadow: 2px 2px 5px gray;
+}
+#con {
+  font-size: 8vh;
+  text-shadow: 2px 2px 5px gray;
+}
+#userInput {
+  background-color: rgba(140, 0, 255, 0.116);
+  margin-left: 25%; 
+  margin-right: 25%;
+  margin-bottom: 5%;
+  padding-bottom: 15px;
+}
+#userBox {
+  background-color: rgba(140, 0, 255, 0.31)
 }
